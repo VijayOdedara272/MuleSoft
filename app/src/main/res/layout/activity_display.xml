@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/editTextName"
             android:layout_alignParentLeft="true"
-            android:text="@string/name"
+            android:text="name"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button
