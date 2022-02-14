@@ -2,7 +2,6 @@ package com.example.mulesoft;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -57,14 +56,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor getData(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts where id="+id+"", null );
-        return res;
+        return db.rawQuery( "select * from contacts where id="+id+"", null );
     }
 
     public int numberOfRows(){
         SQLiteDatabase db = this.getReadableDatabase();
-        int numRows = (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
-        return numRows;
+        return (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
     }
 
     public boolean updateContact (Integer id, String name, String phone, String email, String street,String place) {
@@ -79,11 +76,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public Integer deleteContact (Integer id) {
+    public void deleteContact (Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("contacts",
+        db.delete("contacts",
                 "id = ? ",
-                new String[] { Integer.toString(id) });
+                new String[]{Integer.toString(id)});
     }
 
     @SuppressLint("Range")
@@ -92,10 +89,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts", null );
+        @SuppressLint("Recycle") Cursor res =  db.rawQuery( "select * from contacts", null );
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
             array_list.add(res.getString(res.getColumnIndex(CONTACTS_COLUMN_NAME)));
             res.moveToNext();
         }
